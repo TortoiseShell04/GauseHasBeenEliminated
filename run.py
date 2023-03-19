@@ -115,4 +115,28 @@ def toIntegerMatrix(stringMatrix):
         mainMatrix.append(innerMatrix)
     return mainMatrix
 
-print(toIntegerMatrix(toAugmented()))
+# Function to add and multiply rows for gause-elimnation
+def addAndMultiplyRows(row1, row2, rowNumber, multiplicate):
+    # Index of the value in the row
+    indexRow = -1
+    # Final row to be returned
+    rowRes = []
+    # If row 1 is the one being multiplied
+    if rowNumber == 1:
+        for value in row1:
+            # Changes every value to the value*the multiplicate
+            row1[indexRow] = row1[indexRow] * multiplicate
+            # Increments row Index
+            indexRow+=1
+    else:
+        for value in row2:
+            # Changes every value to the value*the multiplicate
+            row2[indexRow] = row2[indexRow] * multiplicate
+            # Increments row Index
+            indexRow+=1
+    # Pushes the added values into the new row
+    for n in range(4):
+            rowRes.append(row1[n]+row2[n])
+    return rowRes
+
+print(addAndMultiplyRows([1,2,5,-4],[-1,23,6,22],2,-2))

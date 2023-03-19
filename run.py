@@ -139,4 +139,13 @@ def addAndMultiplyRows(row1, row2, rowNumber, multiplicate):
             rowRes.append(row1[n]+row2[n])
     return rowRes
 
-print(addAndMultiplyRows([1,2,5,-4],[-1,23,6,22],2,-2))
+# Function to multiply row by a value, will be used to get an all 1s diagonal
+def changeRowValue(row, multiplicate):
+    # Row to store new values
+    rowRes = []
+    # Loops and multiplies row values by multiplicate
+    for n in range(4):
+        rowRes.append(row[n] * multiplicate)
+    return rowRes
+
+print(changeRowValue([0,3,12,9],1/3))

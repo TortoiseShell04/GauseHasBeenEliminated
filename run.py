@@ -100,5 +100,19 @@ def toAugmented():
     # |_             -|
     return mainMatrix
 
-print(toAugmented())
+# Converts the string matrix to a integer matrix
+def toIntegerMatrix(stringMatrix):
+    # Main matrix containing all numbers
+    mainMatrix = []
+    # Loops through rows of the string matrix
+    for matrix in stringMatrix:
+        # Temporary matrix to store the row
+        innerMatrix = []
+        for value in matrix:
+            # Pushes each value into the row matrix after converting value to integer
+            innerMatrix.append(int(value))
+        # Pushes the row matrix to the main matrix
+        mainMatrix.append(innerMatrix)
+    return mainMatrix
 
+print(toIntegerMatrix(toAugmented()))

@@ -2,6 +2,8 @@
 # -Will work on adding more variables later but this will require a better sorting algorithm
 # -Remember to keep the repo upto date in case anything fails or stops working or any hardware issues
 # -Remember to study so you can correctly apply Gause and Gause-Jordan :skull:
+# -Remember to add a row echlon function to order the matrix for the Gause function
+# -Stop with the stupid mistakes please :sob:
 
 
 # | Progam functions start here |
@@ -117,26 +119,29 @@ def toIntegerMatrix(stringMatrix):
 
 # Function to add and multiply rows for gause-elimnation
 def addAndMultiplyRows(row1, row2, rowNumber, multiplicate):
-    # Index of the value in the row
-    indexRow = -1
     # Final row to be returned
     rowRes = []
     # If row 1 is the one being multiplied
     if rowNumber == 1:
         for value in row1:
-            # Changes every value to the value*the multiplicate
-            row1[indexRow] = row1[indexRow] * multiplicate
-            # Increments row Index
-            indexRow+=1
+            # Pushes every value as the value*the multiplicate
+            rowRes.append(value*multiplicate)
+        row2Final = row2
+        # Adds rows
+        rowRes[0] = rowRes[0] + row2Final[0]
+        rowRes[1] = rowRes[1] + row2Final[1]
+        rowRes[2] = rowRes[2] + row2Final[2]
+        rowRes[3] = rowRes[3] + row2Final[3]
     else:
         for value in row2:
-            # Changes every value to the value*the multiplicate
-            row2[indexRow] = row2[indexRow] * multiplicate
-            # Increments row Index
-            indexRow+=1
-    # Pushes the added values into the new row
-    for n in range(4):
-            rowRes.append(row1[n]+row2[n])
+            # Pushes every value as the value*the multiplicate
+            rowRes.append(value*multiplicate)
+            row1Final = row1
+        # Adds rows
+        rowRes[0] = rowRes[0] + row1Final[0]
+        rowRes[1] = rowRes[1] + row1Final[1]
+        rowRes[2] = rowRes[2] + row1Final[2]
+        rowRes[3] = rowRes[3] + row1Final[3]
     return rowRes
 
 # Function to multiply row by a value, will be used to get an all 1s diagonal
@@ -148,4 +153,38 @@ def changeRowValue(row, multiplicate):
         rowRes.append(row[n] * multiplicate)
     return rowRes
 
-print(changeRowValue([0,3,12,9],1/3))
+# Function to display matrix
+def display(matrix):
+    for row in matrix:
+        print(row, "\n")
+
+# Function to solve using Gause-Elimination
+def GauseElimination(matrix):
+    # Resultant Matrix
+    resMat = []
+    # Changes x of row 1 to 1 & pushes first row
+    x1 = (matrix[0])[0]
+    resMat.append(changeRowValue(matrix[0],1/x1))
+    # Changes x of row 2 to 0
+    x2 = (matrix[1])[0]
+    r2 = addAndMultiplyRows(resMat[0],matrix[1],1,-x2)
+    # Changes y of row 2 to 1
+    y2 = r2[1]
+    r2 = changeRowValue(r2,1/y2)
+    # Pushes second row
+    resMat.append(r2)
+    # Changes x of row 3 to 0
+    x3 = (matrix[2])[0]
+    r3 = addAndMultiplyRows(resMat[0],matrix[2],1,-x3)
+    # Changes y of row 3 to 0
+    y3 = r3[1]
+    r3 = addAndMultiplyRows(resMat[1],r3,1,-y3)
+    # Changes z of row 3 to 1
+    z3 = r3[2]
+    if z3 != 0:
+        r3 = changeRowValue(r3,1/z3)
+    resMat.append(r3)
+    display(resMat)
+matrix = [[1,-2,3,9],[0,1,3,5],[0,0,1,2]]
+
+GauseElimination(matrix)

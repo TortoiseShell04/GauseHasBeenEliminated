@@ -157,14 +157,58 @@ def changeRowValue(row, multiplicate):
 def display(matrix):
     for row in matrix:
         print(row, "\n")
+        
+def switchRows(row1,row2):
+    rowTemp = row1
+    row1 = row2
+    row2 = rowTemp
+    return [row1,row2]
+
+def rowEchelon(matrix):
+    r1 = matrix[0]
+    r2 = matrix[1]
+    r3 = matrix[2]
+    
+    resMat = []
+    resMat.append(r1)
+    resMat.append(r2)
+    resMat.append(r3)
+
+    if (resMat[0])[0] == 0:
+        if (resMat[0])[1] == 0:
+            sw = switchRows(resMat[0],resMat[2])
+            resMat[0] = sw[0]
+            resMat[2] = sw[1]
+        else:
+            sw = switchRows(resMat[0],resMat[1])
+            resMat[0] = sw[0]
+            resMat[1] = sw[1]
+
+    if resMat[1] == 0:
+        sw = switchRows(resMat[1],resMat[2])
+        resMat[1] = sw[0]
+        resMat[2] = sw[1]
+
+    return resMat
+
 
 # Function to solve using Gause-Elimination
 def GauseElimination(matrix):
+    # Orders the matrix in row echelon form
+    matrix = rowEchelon(matrix)
     # Resultant Matrix
     resMat = []
     # Changes x of row 1 to 1 & pushes first row
     x1 = (matrix[0])[0]
-    resMat.append(changeRowValue(matrix[0],1/x1))
+    y1 = (matrix[0])[1]
+    z1 = (matrix[0])[2]
+    if x1!= 0:
+        resMat.append(changeRowValue(matrix[0],1/x1))
+    elif y1!=0:
+        resMat.append(changeRowValue(matrix[0],1/y1))
+    elif z1!= 0:
+        resMat.append(changeRowValue(matrix[0],1/z1))
+
     # Changes x of row 2 to 0
     x2 = (matrix[1])[0]
     r2 = addAndMultiplyRows(resMat[0],matrix[1],1,-x2)
@@ -185,6 +229,6 @@ def GauseElimination(matrix):
         r3 = changeRowValue(r3,1/z3)
     resMat.append(r3)
     display(resMat)
-matrix = [[1,-2,3,9],[0,1,3,5],[0,0,1,2]]
+matrix = [[0,-2,3,9],[0,1,3,5],[0,0,1,2]]
 
 GauseElimination(matrix)
